@@ -1,5 +1,6 @@
 package next.dao;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -25,10 +26,17 @@ public class QuestionDaoTest {
 	@Test
 	public void crud() throws Exception {
 		Question expected = new Question("자바지기", "title", "contents");
-		QuestionDao dut = new QuestionDao();
-		dut.insert(expected);
+		QuestionDao.INSTANCE.insert(expected);
 		
-		List<Question> questions = dut.findAll();
+		List<Question> questions = QuestionDao.INSTANCE.findAll();
 		assertTrue(questions.size() > 0);
+	}
+	
+	@Test
+	public void deleteQuestion() throws Exception {
+		Question expected = new Question("aaa", "title", "contents");
+		QuestionDao.INSTANCE.delete(expected.getQuestionId());
+		QuestionDao.INSTANCE.insert(expected);
+		assertEquals(true, QuestionDao.INSTANCE.delete(expected.getQuestionId()));
 	}
 }

@@ -545,3 +545,7 @@ tr.odd {
 .hasError {
     background: pink;
 }
+
+.comment_link {
+    text-align: right;
+}

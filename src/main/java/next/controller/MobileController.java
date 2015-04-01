@@ -10,14 +10,16 @@ import next.model.Question;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 
-public class ListController extends AbstractController {
+public class MobileController extends AbstractController {
 	@Override
-	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ModelAndView execute(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		
+		// 답글 수 추가 
 		List<Question> questions = QuestionDao.INSTANCE.findAll();
 		
-		ModelAndView mav = jstlView("list.jsp");
-		mav.addObject("questions", questions);
+		ModelAndView mav = jsonView();
+		mav.addObject("question", questions);
 		return mav;
 	}
 }

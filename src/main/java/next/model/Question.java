@@ -14,7 +14,7 @@ public class Question {
 	private Date createdDate;
 	
 	private int countOfComment;
-	
+
 	public Question(String writer, String title, String contents) {
 		this(0, writer, title, contents, new Date(), 0);
 	}	
@@ -56,7 +56,15 @@ public class Question {
 	public int getCountOfComment() {
 		return countOfComment;
 	}
-
+	
+	public void addCountOfComment() {
+		this.countOfComment++;
+	}
+	
+	public void delCountOfComment() {
+		this.countOfComment--;
+	}
+	
 	@Override
 	public String toString() {
 		return "Question [questionId=" + questionId + ", writer=" + writer

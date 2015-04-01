@@ -17,17 +17,30 @@ import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import core.utils.ServletRequestUtils;
 
-public class ShowController extends AbstractController {
-	private static final Logger logger = LoggerFactory.getLogger(ShowController.class);
+public class DelAnswerController extends AbstractController {
+	private static final Logger logger = LoggerFactory.getLogger(DelAnswerController.class);
 	
 	@Override
 	public ModelAndView execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		long answerId = ServletRequestUtils.getRequiredLongParameter(request, "answerId");
 		long questionId = ServletRequestUtils.getRequiredLongParameter(request, "questionId");
-		logger.debug("questionId : {}", questionId);
+		logger.debug("answerId : {}", answerId);
+		
+		// 답글 제거  
+		AnswerDao.INSTANCE.delete(answerId);
+		
+		// 답글 수 추가 
 		Question question = QuestionDao.INSTANCE.findById(questionId);
+		question.delCountOfComment();
+		QuestionDao.INSTANCE.update(question);
+		
+		// 다시 받아오기
+		question = QuestionDao.INSTANCE.findById(questionId);
 		List<Answer> answers = AnswerDao.INSTANCE.findAllByQuestionId(questionId);
-		ModelAndView mav = jstlView("show.jsp");
+		
+		ModelAndView mav = jsonView();
+		mav.addObject("countOfComment", question.getCountOfComment());
 		mav.addObject("question", question);
 		mav.addObject("answers", answers);
 		return mav;

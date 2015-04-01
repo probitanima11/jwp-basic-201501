@@ -26,10 +26,9 @@ public class AnswerDaoTest {
 	public void crud() throws Exception {
 		long questionId = 1L;
 		Answer expected = new Answer("javajigi", "answer contents", questionId);
-		AnswerDao dut = new AnswerDao();
-		dut.insert(expected);
+		AnswerDao.INSTANCE.insert(expected);
 		
-		List<Answer> answers = dut.findAllByQuestionId(questionId);
+		List<Answer> answers = AnswerDao.INSTANCE.findAllByQuestionId(questionId);
 		assertTrue(answers.size() > 0);
 	}
 }
